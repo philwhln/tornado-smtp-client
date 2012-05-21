@@ -147,7 +147,7 @@ if __name__ == '__main__':
         client = SMTPClient('localhost', 25)
         body = "Subject: Testing\n\nJust a test"
         client.send('foo@example.com', ['recipient@example.com'], body, callback=sent_test)
-    def sent_test(success, error_msg):
+    def sent_test(success, error_msg=None):
         if success:
             print "Sent OK"
         else:
