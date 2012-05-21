@@ -132,21 +132,27 @@ class SMTPClient(object):
             self.stream.read_until('\r\n', self.process)
 
     def error(self, msg):
-        self.close()
+        self.close(msg)
 
-    def close(self):
+    def close(self, error_msg=None):
         for msg in self.msgs:
             if msg.callback:
-                msg.callback(False)
+                msg.callback(False, error_msg)
         self.stream.close()
         self.stream = None
         self.state = self.CLOSED
 
 if __name__ == '__main__':
-    client = SMTPClient('localhost', 25)
-    body = """Subject: Testing
-
-Just a test
-    """
-    client.send('foo@example.com', ['recipient@example.com'], body)
+    def send_test():
+        client = SMTPClient('localhost', 25)
+        body = "Subject: Testing\n\nJust a test"
+        client.send('foo@example.com', ['recipient@example.com'], body, callback=sent_test)
+    def sent_test(success, error_msg):
+        if success:
+            print "Sent OK"
+        else:
+            print "Failed to send : " + str(error_msg)
+        ioloop.IOLoop.instance().stop()
+    send_test()
     ioloop.IOLoop.instance().start()
+
