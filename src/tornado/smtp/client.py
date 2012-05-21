@@ -1,7 +1,6 @@
 
 # Originally from https://gist.github.com/1358253
 
-from tornado import ioloop
 from tornado import iostream
 import socket
 
@@ -141,18 +140,4 @@ class SMTPClient(object):
         self.stream.close()
         self.stream = None
         self.state = self.CLOSED
-
-if __name__ == '__main__':
-    def send_test():
-        client = SMTPClient('localhost', 25)
-        body = "Subject: Testing\n\nJust a test"
-        client.send('foo@example.com', ['recipient@example.com'], body, callback=sent_test)
-    def sent_test(success, error_msg=None):
-        if success:
-            print "Sent OK"
-        else:
-            print "Failed to send : " + str(error_msg)
-        ioloop.IOLoop.instance().stop()
-    send_test()
-    ioloop.IOLoop.instance().start()
 
