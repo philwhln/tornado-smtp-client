@@ -1,3 +1,5 @@
+WARNING: THIS REPO IS A WORK-IS-PROGRESS (ACTALLY BUGGY) AND NOT BEING MAINTAINED.
+
 tornado-smtp-client
 ===================
 
